@@ -11,7 +11,7 @@
 pkg/
 src/
 
-#linux from https://github.com/github/gitignore/blob/master/Global/Linux.gitignore
+# linux from https://github.com/github/gitignore/blob/master/Global/Linux.gitignore
 #---------------------------------------------------------------------------------
 
 *~
@@ -52,7 +52,7 @@ node_modules
 #-------------------------------------------------------------------------
 .sass-cache
 
-# SublimeText from https://github.com/github/gitignore/blob/master/Global/SublimeText.gitignore
+# Sublime Text from https://github.com/github/gitignore/blob/master/Global/SublimeText.gitignore
 #----------------------------------------------------------------------------------------------
 
 # workspace files are user-specific
@@ -90,7 +90,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-#Windows from https://github.com/github/gitignore/blob/master/Global/Windows.gitignore
+# Windows from https://github.com/github/gitignore/blob/master/Global/Windows.gitignore
 #-------------------------------------------------------------------------------------
 
 # Windows image file caches
@@ -109,8 +109,14 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
-#bower
-#-----
+# Bower
+#------
 
 bower_components
 components
+
+# Project
+#--------
+
+dist
+.tmp

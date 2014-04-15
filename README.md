@@ -1,3 +1,3 @@
 # Crust
 
-A boilerplate to start new projects.
+A boilerplate to start my new projects.
