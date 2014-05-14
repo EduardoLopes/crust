@@ -183,15 +183,14 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask( 'default', [
-    'jshint',
-    'build'
+    'dist'
   ]);
 
-  grunt.registerTask( 'build', [
+  grunt.registerTask( 'dist', [
+    'jshint',
     'clean:dist',
     'useminPrepare',
     'concat',
-    'jshint',
     'uglify',
     'cssmin',
     'copy:dist',
