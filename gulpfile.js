@@ -7,6 +7,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var cssmin = require('gulp-cssmin');
 var uncss = require('gulp-uncss');
+var webserver = require('gulp-webserver');
 
 var gulpSrc = function (opts) {
   var paths = es.through();
@@ -70,6 +71,15 @@ gulp.task('default', function(cb) {
 
 });
 
+gulp.task('server', function() {
+  gulp.src('app')
+    .pipe(webserver({
+      livereload: true,
+      open: true
+    }));
+});
+
+//fester than 'gulp server'
 gulp.task('watch', function() {
 
   livereload.listen();
