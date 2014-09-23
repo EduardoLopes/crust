@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var del = require('del');
 var es = require('event-stream');
 var htmlbuild = require('gulp-htmlbuild');
 var livereload = require('gulp-livereload');
@@ -8,6 +7,9 @@ var uglify = require('gulp-uglify');
 var cssmin = require('gulp-cssmin');
 var uncss = require('gulp-uncss');
 var webserver = require('gulp-webserver');
+var rename = require('gulp-rename');
+var runSequence = require('run-sequence');
+var clean = require('gulp-clean');
 
 var gulpSrc = function (opts) {
   var paths = es.through();
@@ -25,21 +27,28 @@ var gulpSrc = function (opts) {
 var jsBuild = es.pipeline(
   concat('main.js'),
   uglify(),
-  gulp.dest('./dist')
+  gulp.dest('./dist/js')
 );
 
 var cssBuild = es.pipeline(
-  concat('main.css'),
-  uncss({ html: ['dist/index.html'] }),
+  uncss({ html: ['app/index.html'] }),
+  concat('main.min.css'),
   cssmin(),
-  gulp.dest('./dist')
+  gulp.dest('./dist/css'),
+  uncss({ html: ['app/index.html'] }),
+  rename('main.css'),
+  gulp.dest('./dist/css')
 );
 
-gulp.task('default', function(cb) {
+gulp.task('clean', function(cb) {
 
-   del(['dist/*'], cb);
+  return gulp.src('dist/*').pipe(clean());
 
-   gulp.src(['app/index.html'])
+});
+
+gulp.task('htmlbuild',  function(cb) {
+
+  gulp.src(['app/index.html'])
     .pipe(htmlbuild({
 
       js: htmlbuild.preprocess.js(function (block) {
@@ -47,7 +56,7 @@ gulp.task('default', function(cb) {
         block.pipe(gulpSrc())
           .pipe(jsBuild);
 
-        block.end('main.js');
+        block.end('js/main.js');
 
       }),
 
@@ -56,7 +65,7 @@ gulp.task('default', function(cb) {
         block.pipe(gulpSrc())
           .pipe(cssBuild);
 
-        block.end('main.css');
+        block.end('css/main.min.css');
 
       }),
       //remove livereload scripe
@@ -66,8 +75,27 @@ gulp.task('default', function(cb) {
     }))
     .pipe(gulp.dest('./dist'));
 
-   gulp.src('app/img/*.{png,jpg}')
-   .pipe(gulp.dest('./dist/img'));
+  //Copy
+  gulp.src('app/img/*.{png,jpg}')
+  .pipe(gulp.dest('./dist/img'));
+
+  gulp.src('app/js/vendor/*')
+  .pipe(gulp.dest('./dist/js/vendor'));
+
+  //anothers files
+  gulp.src([
+    'app/apple-touch-icon-precomposed.png',
+    'app/favicon.ico',
+    'app/humans.txt',
+    'app/robots.txt'
+  ])
+  .pipe(gulp.dest('./dist/'));
+
+});
+
+gulp.task('default', function(cb) {
+
+  runSequence('clean', 'htmlbuild');
 
 });
 
