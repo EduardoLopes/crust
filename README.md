@@ -4,22 +4,25 @@ A boilerplate to start my new projects.
 
 Usage
 -----
-install [grunt](http://gruntjs.com/getting-started) `npm install -g grunt-cli`
+install [gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md) `npm install --global gulp`
 
 run `sh crust.sh` to delete some files
 
-Grunt
+Gulp
 -----
 
-`grunt server` to run a server (localhost:9000)
+`gulp server` to run a server with live reload (localhost:9000)
 
-`grunt dist` or just `grunt` to 'compile' the app and will generate a folder like this:
+`gulp watch` livereload (without a server, is fester than `gulp server`)
+
+`gulp` to 'compile' the app and generate a folder like this:
 
 ```
 dist
 ├── apple-touch-icon-precomposed.png
 ├── css
-│   └── style.css
+│   ├── main.css
+│   └── main.min.css
 ├── favicon.ico
 ├── humans.txt
 ├── index.html
@@ -30,3 +33,4 @@ dist
 │       └── modernizr-2.6.2.min.js
 └── robots.txt
 ```
+
