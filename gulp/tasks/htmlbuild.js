@@ -6,6 +6,10 @@ var uglify = require('gulp-uglify');
 var cssmin = require('gulp-cssmin');
 var uncss = require('gulp-uncss');
 var rename = require('gulp-rename');
+var config = require('../config');
+
+var app = config.dir.app;
+var dist = config.dir.dist;
 
 var gulpSrc = function (opts) {
   var paths = es.through();
@@ -13,7 +17,7 @@ var gulpSrc = function (opts) {
 
   paths.pipe(es.writeArray(function (err, srcs) {
 
-    gulp.src(srcs, { cwd: 'app' }).pipe(files);
+    gulp.src(srcs, { cwd: app }).pipe(files);
 
   }));
 
@@ -23,22 +27,22 @@ var gulpSrc = function (opts) {
 var jsBuild = es.pipeline(
   concat('main.min.js'),
   uglify(),
-  gulp.dest('./dist/js')
+  gulp.dest(dist + '/js')
 );
 
 var cssBuild = es.pipeline(
-  uncss({ html: ['app/index.html'] }),
+  uncss({ html: [app + '/index.html'] }),
   concat('main.min.css'),
   cssmin(),
-  gulp.dest('./dist/css'),
-  uncss({ html: ['app/index.html'] }),
+  gulp.dest(dist + '/css'),
+  uncss({ html: [app + '/index.html'] }),
   rename('main.css'),
-  gulp.dest('./dist/css')
+  gulp.dest(dist + '/css')
 );
 
 gulp.task('htmlbuild',  function(cb) {
 
-  return gulp.src(['app/index.html'])
+  return gulp.src([app + '/index.html'])
     .pipe(htmlbuild({
 
       js: htmlbuild.preprocess.js(function (block) {
@@ -63,6 +67,6 @@ gulp.task('htmlbuild',  function(cb) {
         block.end();
       }
     }))
-    .pipe(gulp.dest('./dist'));
+    .pipe(gulp.dest(dist));
 
 });
