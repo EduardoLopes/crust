@@ -4,6 +4,7 @@
   "description": "project description",
   "author": "",
   "devDependencies": {
+    "browserify": "^6.3.2",
     "event-stream": "^3.1.7",
     "gulp": "^3.4.0",
     "gulp-clean": "^0.3.1",
@@ -14,7 +15,10 @@
     "gulp-rename": "^1.2.0",
     "gulp-uglify": "^1.0.1",
     "gulp-uncss": "^0.5.1",
+    "gulp-util": "^3.0.1",
     "gulp-webserver": "^0.8.7",
-    "run-sequence": "^1.0.2"
+    "run-sequence": "^1.0.2",
+    "vinyl-source-stream": "^1.0.0",
+    "watchify": "^2.1.1"
   }
 }

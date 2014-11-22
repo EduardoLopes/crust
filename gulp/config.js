@@ -1,5 +1,5 @@
 var app = './app';
-var dist = './dist1';
+var dist = './dist';
 
 module.exports = {
   dir: {
