@@ -15,7 +15,13 @@ Gulp
 
 `gulp watch` livereload (without a server, is fester than `gulp server`)
 
+`browserify` watch `app/js/main.js` and build the bundle
+
+`browserify:build` build bundle
+
 `gulp` to 'compile' the app and generate a folder like this:
+
+
 
 ```
 dist
@@ -27,7 +33,7 @@ dist
 ├── humans.txt
 ├── index.html
 ├── js
-│   ├── main.js
+│   ├── main.min.js
 │   └── vendor
 │       ├── jquery-1.10.2.min.js
 │       └── modernizr-2.6.2.min.js
