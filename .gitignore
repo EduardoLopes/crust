@@ -120,3 +120,5 @@ components
 
 dist
 .tmp
+app/bundle.js
+app/bundle.js.map
