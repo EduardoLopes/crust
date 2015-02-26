@@ -6,6 +6,8 @@ var uglify = require('gulp-uglify');
 var cssmin = require('gulp-cssmin');
 var uncss = require('gulp-uncss');
 var rename = require('gulp-rename');
+var autoprefixer = require('gulp-autoprefixer');
+var cssbeautify = require('gulp-cssbeautify');
 var config = require('../config');
 
 var app = config.dir.app;
@@ -31,16 +33,19 @@ var jsBuild = es.pipeline(
 );
 
 var cssBuild = es.pipeline(
-  uncss({ html: [app + '/index.html'] }),
-  concat('main.min.css'),
-  cssmin(),
+  //uncss({ html: [app + '/index.html'] }),
+  autoprefixer({
+    browsers: ['last 8 versions']
+  }),
+  cssbeautify(),
+  concat('main.css'),
   gulp.dest(dist + '/css'),
-  uncss({ html: [app + '/index.html'] }),
-  rename('main.css'),
+  rename('main.min.css'),
+  cssmin(),
   gulp.dest(dist + '/css')
 );
 
-gulp.task('htmlbuild',  function(cb) {
+gulp.task('htmlbuild', ['clean', 'browserify:build'], function(cb) {
 
   return gulp.src([app + '/index.html'])
     .pipe(htmlbuild({
@@ -68,5 +73,7 @@ gulp.task('htmlbuild',  function(cb) {
       }
     }))
     .pipe(gulp.dest(dist));
+
+
 
 });

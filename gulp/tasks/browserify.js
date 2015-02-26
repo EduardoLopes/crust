@@ -3,13 +3,27 @@ var gutil = require('gulp-util');
 var source = require('vinyl-source-stream');
 var watchify = require('watchify');
 var browserify = require('browserify');
+var buffer = require('vinyl-buffer');
+var sourcemaps = require('gulp-sourcemaps');
+var es6ify = require('es6ify');
 var config = require('../config');
+
 
 var app = config.dir.app;
 
-gulp.task('browserify', function() {
+ var browserify_instance = browserify({
+    cache: {},
+    packageCache: {},
+    fullPaths: true,
+    debug: true
+  })
+  .add(es6ify.runtime)
+  .transform(es6ify.configure(/^(?!.*node_modules)+.+\.js$/))
+  .require(app + '/js/main.js', { entry: true });
 
-  var bundler = watchify(browserify(app + '/js/main.js', watchify.args));
+  var bundler = watchify(browserify_instance);
+
+gulp.task('browserify', function() {
 
   bundler.on('update', rebundle);
 
@@ -19,11 +33,13 @@ gulp.task('browserify', function() {
 
   function rebundle() {
 
-    return bundler.bundle()
-      // log errors if they happen
-      .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-      .pipe(source('bundle.js'))
-      .pipe(gulp.dest(app + '/js'));
+    return bundler
+    .bundle()
+    // log errors if they happen
+    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+    .pipe(source('bundle.js'))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(app + '/'));
   }
 
   return rebundle();
@@ -32,13 +48,16 @@ gulp.task('browserify', function() {
 
 gulp.task('browserify:build', function() {
 
-  var bundler = browserify(app + '/js/main.js');
+  var bundler = browserify()
+  .add(es6ify.runtime)
+  .transform(es6ify.configure(/^(?!.*node_modules)+.+\.js$/))
+  .require(app + '/js/main.js', { entry: true });
 
   return bundler.bundle()
     // log errors if they happen
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
     .pipe(source('bundle.js'))
-    .pipe(gulp.dest(app + '/js'));
+    .pipe(gulp.dest(app + '/'));
 
 });
 
