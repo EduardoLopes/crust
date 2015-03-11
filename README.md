@@ -11,17 +11,9 @@ run `sh crust.sh` to delete some files
 Gulp
 -----
 
-`gulp server` to run a server with live reload (localhost:9000)
+`gulp` to run browserify (+watchify) and a browser sync server
 
-`gulp watch` livereload (without a server, is fester than `gulp server`)
-
-`browserify` watch `app/js/main.js` and build the bundle
-
-`browserify:build` build bundle
-
-`gulp` to 'compile' the app and generate a folder like this:
-
-
+`gulp dist` to 'compile' the app and generate a folder like this:
 
 ```
 dist
@@ -39,4 +31,3 @@ dist
 │       └── modernizr-2.6.2.min.js
 └── robots.txt
 ```
-

@@ -1,3 +1,6 @@
 var gulp = require('gulp');
 
-gulp.task('default', ['htmlbuild', 'copy']);
+gulp.task('default', ['server', 'browserify']);
+
+gulp.task('dist', ['htmlbuild', 'copy']);
+

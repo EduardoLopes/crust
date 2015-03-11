@@ -1,15 +1,24 @@
 var gulp = require('gulp');
-var livereload = require('gulp-livereload');
 var config = require('../config');
+
+var browserSync = require('browser-sync');
+var reload = browserSync.reload;
 
 var app = config.dir.app;
 
-//faster than 'gulp server'
-gulp.task('watch', function() {
+// watch files for changes and reload
+gulp.task('server', function() {
 
-  livereload.listen();
+    browserSync({
+        server: {
+            baseDir: './',
+        },
+        open: true,
+        startPath: '/app',
+        injectChanges: true,
+    });
 
-  gulp.watch([app + '/**/*', '!'+app + '/js/**/*.js']).on('change', livereload.changed);
+  gulp.watch(['index.html', 'bundle.js', 'css/**/*.css'], {cwd: 'app'}).on('change', reload);
+
 
 });
-
