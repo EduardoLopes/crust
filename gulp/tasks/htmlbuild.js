@@ -66,11 +66,7 @@ gulp.task('htmlbuild', ['clean', 'browserify:build'], function(cb) {
 
         block.end('css/main.min.css');
 
-      }),
-      //remove livereload scripe
-      remove: function (block) {
-        block.end();
-      }
+      })
     }))
     .pipe(gulp.dest(dist));
 
