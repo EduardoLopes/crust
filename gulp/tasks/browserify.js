@@ -5,7 +5,7 @@ var watchify = require('watchify');
 var browserify = require('browserify');
 var buffer = require('vinyl-buffer');
 var sourcemaps = require('gulp-sourcemaps');
-var es6ify = require('es6ify');
+var babelify = require("babelify");
 var config = require('../config');
 
 
@@ -17,8 +17,7 @@ var app = config.dir.app;
     fullPaths: true,
     debug: true
   })
-  .add(es6ify.runtime)
-  .transform(es6ify.configure(/^(?!.*node_modules)+.+\.js$/))
+  .transform(babelify, {presets: ["es2015"]})
   .require(app + '/js/main.js', { entry: true });
 
   var bundler = watchify(browserify_instance);
@@ -46,11 +45,10 @@ gulp.task('browserify', function() {
 
 });
 
-gulp.task('browserify:build', function() {
+gulp.task('browserify:build', ['clean'], function() {
 
   var bundler = browserify()
-  .add(es6ify.runtime)
-  .transform(es6ify.configure(/^(?!.*node_modules)+.+\.js$/))
+  .transform(babelify, {presets: ["es2015"]})
   .require(app + '/js/main.js', { entry: true });
 
   return bundler.bundle()

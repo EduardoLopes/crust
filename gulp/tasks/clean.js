@@ -6,6 +6,6 @@ var dist = config.dir.dist;
 
 gulp.task('clean', function(cb) {
 
-  del([dist + '/**/*'], cb);
+  return del([dist + '/**/*'], cb);
 
 });
